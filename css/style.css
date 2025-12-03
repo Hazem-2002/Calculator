@@ -1,0 +1,32 @@
+
+body {
+    height: 100vh;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+.container {
+    width: fit-content;
+}
+
+.display {
+    white-space: nowrap;
+    font-size: 20px;
+    overflow: hidden;
+    grid-column: span 4;
+}
+
+.display span {
+    opacity: 0.5;
+}
+
+.display span.active {
+    opacity: 1;
+}
+
+.container .numpad {
+    display: grid;
+    grid-template: auto repeat(5,45px) / repeat(4,45px);
+    gap: 10px;
+    font-weight: bold;
+}
