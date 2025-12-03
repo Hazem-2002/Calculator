@@ -18,7 +18,7 @@ btns.forEach(ele => {
             display.classList.remove("active");
         }
         else {
-            if (display.textContent == "0" || x) {
+            if (display.textContent == "0" || (x && !isNaN(input))) {
                 if(input != "*" && input != "/" && input != "%") {
                     display.textContent = input;
                     display.classList.add("active");
