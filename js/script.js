@@ -18,29 +18,34 @@ btns.forEach(ele => {
             display.classList.remove("active");
         }
         else {
-            if (!isNaN(input) && x) {
-                display.textContent = input;
-                display.classList.add("active");
+            if (display.textContent == "0" || x) {
+                if(input != "*" && input != "/" && input != "%") {
+                    display.textContent = input;
+                    display.classList.add("active");
+                }
             } else {
-                if (display.textContent == "0") {
-                    if(input != "*" && input != "/" && input != "%") {
-                        display.textContent = input;
-                        display.classList.add("active");
-                    }
-                } else {
-                    if(((display.textContent.length == 1 && (display.textContent.slice(-1)=="+" || display.textContent.slice(-1)=="-")) || (isNaN(display.textContent.slice(-1)) && isNaN(display.textContent.slice(-2,-1)))) && (input == "+" || input == "-")) {
+                // check if user enter sign (+ or -) only 
+                let x1 = (display.textContent.length == 1 && (display.textContent.slice(-1)=="+" || display.textContent.slice(-1)=="-"));
+                // check if last two input were operators
+                let x2 = (isNaN(display.textContent.slice(-1)) && isNaN(display.textContent.slice(-2,-1)));
+                // check if input is (+ or -)
+                let x3 = (input == "+" || input == "-");
+                // check if input is (* or / or %)
+                let x4 = (input == "*" || input == "/" || input == "%");
+                // check if last input was operator and previous was number and not empty value
+                let x5 = (isNaN(display.textContent.slice(-1)) && !isNaN(display.textContent.slice(-2,-1)) && display.textContent.slice(-2,-1) != "");
+                // check if input is number
+                let x6 = !isNaN(input)
+
+                if(((x1 || x2) && x3) || (x5 && x4)) {
                         display.textContent = display.textContent.slice(0,-1) + input;
-                    }
-                    else if(isNaN(display.textContent.slice(-1)) && !isNaN(display.textContent.slice(-2,-1)) && display.textContent.slice(-2,-1) != "" && (input == "*" || input == "/" || input == "%")) {
-                        display.textContent = display.textContent.slice(0,-1) + input;
-                    }
-                    else if(isNaN(display.textContent.slice(-1)) && isNaN(display.textContent.slice(-2,-1)) && display.textContent.slice(-2,-1) != "" && !isNaN(input)){
+                }
+                else if(x2 && x6){
+                    display.textContent += input;
+                }
+                else{
+                    if(!((x2 || x1) && !(x6))) {
                         display.textContent += input;
-                    }
-                    else{
-                        if(!((isNaN(display.textContent.slice(-1)) && isNaN(display.textContent.slice(-2,-1)) || (display.textContent.length == 1 && (display.textContent.slice(-1)=="+" || display.textContent.slice(-1)=="-"))) && isNaN(input))) {
-                            display.textContent += input;
-                        }
                     }
                 }
             }
@@ -54,9 +59,11 @@ btns.forEach(ele => {
 });
 
 function calc(val) {
+    // filter numbers and store each value at index in array
     let nums = val.split("").map(ele => (!isNaN(ele) || ele == ".")? ele:"-").join("").split("-");
+    // filter operations and store each operation at index in array
     let opes = val.split("").filter(ele => (isNaN(ele) &&  ele != "."));
-
+    // remove empty indexs which generate due to sign(- or +) and remove this sign from operaions array(opes) and add sign to numbers in numbers array(nums)
     while(nums.includes("")) {
         let index = nums.indexOf("");
         nums.splice(index,1);
@@ -87,4 +94,4 @@ function calc(val) {
         }
     }
     return result;
-}
+}  
