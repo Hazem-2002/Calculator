@@ -1,3 +1,8 @@
+* {
+    padding: 0;
+    margin: 0;
+    box-sizing: border-box;
+}
 
 body {
     height: 100vh;
@@ -7,6 +12,21 @@ body {
 }
 .container {
     width: fit-content;
+}
+
+.container .numpad {
+    display: grid;
+    grid-template: auto auto repeat(5,45px) / repeat(4,45px);
+    gap: 10px;
+    font-weight: bold;
+}
+
+.choose-input {
+    grid-column: span 4;
+}
+
+.form-check-input:checked {
+    background-color: #aaa;
 }
 
 .display {
@@ -21,12 +41,8 @@ body {
 }
 
 .display span.active {
-    opacity: 1;
+    opacity: 1; 
 }
-
-.container .numpad {
-    display: grid;
-    grid-template: auto repeat(5,45px) / repeat(4,45px);
-    gap: 10px;
-    font-weight: bold;
+button:active {
+    background-color: #bbb !important;
 }

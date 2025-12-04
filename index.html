@@ -16,7 +16,19 @@
 <body>
     <div class="container p-3 rounded-3 bg-dark text-secondary">
         <div class="numpad">
-            <h2 class="display border border-secondary p-2 my-2 text-white"><span>0</span></h2>
+            <div class="container-fluid choose-input">
+                <div class="row">
+                    <div class="form-check col-3">
+                        <input type="radio" class="form-check-input bg-secondary border-0 shadow-none" name="result" id="lbl1" checked>
+                        <label class="text-white-50" for="lbl1">P</label>
+                    </div>
+                    <div class="form-check col-3">
+                        <input type="radio" class="form-check-input bg-secondary border-0 shadow-none" name="result" id="lbl2">
+                        <label class="text-white-50" for="lbl2">NP</label>
+                    </div>
+                </div><!-- row -->
+            </div><!-- choose-input -->
+            <h2 class="display border border-secondary p-2 mb-2 mt-1 text-white"><span>0</span></h2>
             <button data-role="cl" class="btn btn-dark border-secondary">CL</button>
             <button data-role="dl" class="btn btn-dark border-secondary">DL</button>
             <button data-role="%" class="btn btn-dark border-secondary">%</button>

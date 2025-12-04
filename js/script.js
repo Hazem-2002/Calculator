@@ -1,5 +1,6 @@
 let btns = document.querySelectorAll(".btn");
 let display = document.querySelector(".display span");
+let resultPriorty = document.getElementById("lbl1");
 let x = false;
 btns.forEach(ele => {
     ele.addEventListener("click", () => {
@@ -67,31 +68,78 @@ function calc(val) {
     while(nums.includes("")) {
         let index = nums.indexOf("");
         nums.splice(index,1);
+
         switch(opes[index]){
-            case "-" : nums[index] = -(+nums[index]);
+            case "-" : nums[index] = -(nums[index]);
         }
         opes.splice(index,1);
     }
-    
-    let result = +nums[0];
-    for(let i = 1 ; i < nums.length ; i++) {
-        switch(opes[i-1]) {
-            case "+" : 
-            result += +nums[i];
-            break;
-            case '-' : 
-            result -= +nums[i];
-            break;
-            case '*' : 
-            result *= +nums[i];
-            break;
-            case '/' : 
-            result /= +nums[i];
-            break;
-            case '%' : 
-            result %= +nums[i];
-            break;
+    console.log(nums);
+    console.log(opes);
+
+    if(resultPriorty.checked) {
+
+        function applyOp(index) {
+            let a = +nums[index];
+            let b = +nums[index + 1];
+            let op = opes[index];
+            let result;
+
+            switch (op) {
+                case "*": result = a * b; break;
+                case "/": result = a / b; break;
+                case "%": result = a % b; break;
+                case "+": result = a + b; break;
+                case "-": result = a - b; break;
+            }
+
+            nums.splice(index, 2, result);
+            opes.splice(index, 1);
         }
+
+        while (opes.includes("*") || opes.includes("/") || opes.includes("%")) {
+            let iMul = opes.indexOf("*");
+            let iDiv = opes.indexOf("/");
+            let iMod = opes.indexOf("%");
+
+            let indices = [iMul, iDiv, iMod].filter(i => i !== -1);
+            let index = Math.min(...indices);
+
+            applyOp(index);
+        }
+
+        while (opes.length > 0) {
+            let iAdd = opes.indexOf("+");
+            let iSub = opes.indexOf("-");
+
+            let indices = [iAdd, iSub].filter(i => i !== -1);
+            let index = Math.min(...indices);
+
+            applyOp(index);
+        }
+        return nums[0];
+    }else {
+        let result = +nums[0];
+        for(let i = 1 ; i < nums.length ; i++) {
+            switch(opes[i-1]) {
+                case "+" : 
+                result += +nums[i];
+                break;
+                case '-' : 
+                result -= +nums[i];
+                break;
+                case '*' : 
+                result *= +nums[i];
+                break;
+                case '/' : 
+                result /= +nums[i];
+                break;
+                case '%' : 
+                result %= +nums[i];
+                break;
+            }
+        }
+        return result;
     }
-    return result;
-}  
+}
+
